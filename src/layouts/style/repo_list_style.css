@@ -1,0 +1,180 @@
+@font-face {
+    font-family: "Roboto";
+    src: url("../fonts/Roboto.ttf");
+}
+
+html {
+    font-size: 14px;
+    --theme-color: white;
+    --theme-bg-color: #ff5555;
+    --disabled-bg-color: #f9f9f9;
+    --disabled-color: #7e7e7e;
+    --disabled-button-color: #d9d9d9;
+    --border-color: #d9d9d9;
+    --border-highlighted-color: #ff5555;
+    --shadow-color: rgba(182, 182, 182, 0.25);
+    --secondary-text-color: #7e7e7e;
+    --link-color: #208fbf;
+}
+
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: "Roboto";
+}
+
+.git-repo-list {
+    width: 500px;
+    display: grid;
+    padding: 10px 20px;
+}
+
+.git-repo-list__header {
+    box-sizing: border-box;
+    width: 500px;
+    height: 75px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.git-repo-list__body {
+    box-sizing: border-box;
+    width: 500px;
+}
+
+.git-repo-card {
+    box-sizing: border-box;
+    margin: 16px 0px;
+    display: flex;
+    padding: 12px;
+    align-items: center;
+    border: 1px var(--border-color) solid;
+    border-radius: 6px;
+}
+
+.git-repo-card:hover {
+    box-shadow: 0px 2px 6px var(--shadow-color);
+}
+
+.git-repo-list__search-input {
+    box-sizing: border-box;
+    height: 50px;
+    width: 100%;
+    border: 1px var(--shadow-color) solid;
+    border-radius: 6px;
+    margin-right: 12px;
+    font-size: 1.0rem;
+    padding: 0px 12px;
+    font-family: "Roboto";
+}
+
+.git-repo-list__search-input:focus {
+    border: 1px var(--border-highlighted-color) solid;
+}
+
+.git-repo-list__search-input:focus-visible {
+    outline: 0;
+}
+
+.git-repo-list__search-input:disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--disabled-color);
+}
+
+.git-repo-list__search-button {
+    box-sizing: border-box;
+    height: 50px;
+    width: 50px;
+    background-color: var(--theme-bg-color);
+    background-image: url("../images/search-sign.svg");
+    background-size: 60% 60%;
+    background-repeat: no-repeat;
+    background-position: center;
+    border: 1px;
+    border-radius: 6px;
+
+    flex-shrink: 0;
+}
+
+.git-repo-list__search-button:hover {
+    opacity: 70%;
+}
+
+.git-repo-list__search-button:disabled {
+    background-color: var(--disabled-button-color);
+}
+
+.icon {
+    width: 80px;
+    height: 80px;
+    background-color: var(--theme-bg-color);
+    border-radius: 40px;
+    text-align: center;
+    vertical-align: middle;
+    color: transparent;
+    overflow: hidden;
+}
+
+.icon::first-letter {
+    color: var(--theme-color);
+    background-color: var(--theme-bg-color);
+    font-size: 40px;
+    line-height: 80px;
+    font-weight: bold;
+}
+
+.icon__image {
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    border: 0px;
+}
+
+.git-repo-card__description {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 12px;
+    min-width: 0;
+    flex: 1 1 0;
+}
+
+.git-repo-card__title {
+    display: block;
+    width: fill;
+    font-weight: bold;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 1.2rem;
+    margin: 5px 0px;
+}
+
+.git-repo-card__company {
+    display: block;
+    font-size: 1.0rem;
+    color: var(--secondary-text-color);
+    margin: 2px 0px;
+}
+
+.git-repo-card__company:hover {
+    color: var(--link-color);
+}
+
+.git-repo-card__details {
+    display: block;
+    font-size: 1.0rem;
+    color: var(--secondary-text-color);
+    margin: 2px 0px;
+}
+
+.git-repo-card__stars::before {
+    content: url("../images/star.svg");
+    vertical-align: middle;
+    line-height: inherit;
+}
+
+.git-repo-card__updated {
+    margin-left: 20px;
+}
