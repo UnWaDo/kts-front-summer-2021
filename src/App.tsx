@@ -5,6 +5,7 @@ import './layouts/style/repo_list_style.css'
 import { RepoItem } from './store/types';
 import React from 'react';
 import { getOrgReposList } from './root/root'
+import dayjs from 'dayjs';
 
 function App() {
     return (
@@ -129,7 +130,7 @@ export function RepoCard(props: {repo: RepoItem}) {
                 </div>
                 <div className="git-repo-card__details">
                     <span className="git-repo-card__stars">{props.repo.stargazers_count}</span>
-                    <span className="git-repo-card__updated">Updated {props.repo.updated_at}</span>
+                    <span className="git-repo-card__updated">Updated {dayjs(props.repo.updated_at).format("DD MMM")}</span>
                 </div>
             </div>
         </div>

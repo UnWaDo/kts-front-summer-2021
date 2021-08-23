@@ -1,4 +1,5 @@
 // Здесь необходимо продемонстрировать создание и использование GitHubStore
+import dayjs from 'dayjs';
 import GitHubStore from '../store/GitHubStore';
 import { RepoItem } from '../store/types';
 
@@ -14,7 +15,7 @@ gitHubStore.getOrganizationReposList({
             console.log(`Repository name: ${result.data[i].name}
                 Owner: ${result.data[i].owner.login}
                 Stars: ${result.data[i].stargazers_count}
-                Last update: ${result.data[i].updated_at}`
+                Last update: ${dayjs(result.data[i].updated_at).format("DD MMM")}`
             );
         }
     }
