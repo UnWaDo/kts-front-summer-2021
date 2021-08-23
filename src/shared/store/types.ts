@@ -19,8 +19,10 @@ export type RequestParams<DataT> = {
 }
 
 // Перечисление статусов ответа
-enum StatusHTTP {
-    // TODO: заполнить
+export enum HTTPStatus {
+    OK = 200,
+    NotFound = 404,
+    UnknownError = 0
 }
 
 // Ответ API
@@ -28,12 +30,12 @@ export type ApiResponse<SuccessT, ErrorT> =
     | {
     success: true;
     data: SuccessT;
-    status: StatusHTTP;
+    status: HTTPStatus;
 }
     | {
     success: false;
     data: ErrorT;
-    status: StatusHTTP;
+    status: HTTPStatus;
 };
 
 // Интерфейс для класса, с помощью которого можно делать запросы к API
