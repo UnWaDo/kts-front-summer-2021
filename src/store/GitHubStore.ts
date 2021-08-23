@@ -18,7 +18,6 @@ export default class GitHubStore implements IGitHubStore {
                 orgs: params.organizationName
             }
         };
-        // Так и не понял, как перевести результат из any в Promise<ApiResponse<RepoItem[], ErrorMessage>>
         return this.apiStore.request<RepoItem[], ErrorMessage>(requestParams);
     }
 }

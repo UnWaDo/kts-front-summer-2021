@@ -1,6 +1,6 @@
 // Здесь необходимо продемонстрировать создание и использование GitHubStore
-
 import GitHubStore from '../store/GitHubStore';
+import { RepoItem } from '../store/types';
 
 const gitHubStore = new GitHubStore();
 
@@ -23,4 +23,19 @@ gitHubStore.getOrganizationReposList({
     }
 })
 
+export function getOrgReposList(organization: string): Promise<RepoItem[]> {
+    const gitHubStore = new GitHubStore();
+
+    return gitHubStore.getOrganizationReposList({
+        organizationName: organization
+    }).then(result => {
+        if (result.success)
+            return result.data;
+        else
+            return [];
+    }).catch(() => []);
+}
+
 // В ДЗ 1 Не требуется визуально в разметке отображать результат запроса к сети. Достаточно вывести в console.log
+// Фактически я сделал визуальный вывод, но на всякий случай убирать console.log не стал
+// В начале у меня сгорел мозг от происходящего, но надеюсь, что я сделал это не совсем бредово
