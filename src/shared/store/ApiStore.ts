@@ -1,4 +1,7 @@
+import { queries } from "@testing-library/dom";
 import {ApiResponse, IApiStore, RequestParams, HTTPStatus } from "./types";
+
+const qs = require("qs");
 
 class HTTPError extends Error {
     status: HTTPStatus;
@@ -20,31 +23,26 @@ export default class ApiStore implements IApiStore {
     }
     baseUrl: string;
 
-    request<SuccessT, ErrorT = any, DataT = {}>(params: RequestParams<DataT>): Promise<ApiResponse<SuccessT, ErrorT>> {
-        let url = this.baseUrl + params.endpoint + "?";
-        for (let i in params.data) {
-            url += i + "=" + String(params.data[i]) + "&";
-        }
+    async request<SuccessT, ErrorT = any, DataT = {}>(params: RequestParams<DataT>): Promise<ApiResponse<SuccessT, ErrorT>> {
+        let url = this.baseUrl + params.endpoint + qs.stringify(params.data, { addQueryPrefix: true});
         let requestInput = {
             method: params.method.valueOf()
         };
-        return fetch(url, requestInput).then(result => {
-            if (result.ok)
-                return result.json();
-            else
-                throw new HTTPError(result.status);
-        }).then((result): ApiResponse<SuccessT, ErrorT> => {
+        let response = await fetch(url, requestInput);
+        if (response.ok) {
+            let result = await response.json();
             return {
                 success: true,
                 data: result as SuccessT,
                 status: HTTPStatus.OK
             };
-        }).catch((error: HTTPError): ApiResponse<SuccessT, ErrorT> => {
+        }
+        else {
             return {
                 success: false,
                 data: {} as ErrorT,
-                status: error.status
+                status: response.status
             };
-        });
+        }
     }
 }
