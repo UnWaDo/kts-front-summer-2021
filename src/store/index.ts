@@ -1,2 +1,3 @@
 export { default } from './GitHubStore'
-export type { IGitHubStore, GetOrganizationReposListParams, RepoItem, ErrorMessage } from './types'
+export type { IGitHubStore, RepoItem, RepoBranch, ErrorMessage } from './types'
+export type { GetOrganizationReposListParams, GetRepoBranchesListParams } from './types'
