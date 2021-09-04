@@ -1,6 +1,7 @@
-import ApiStore from '../shared/store/ApiStore';
-import { ApiResponse, HTTPMethod } from '../shared/store/types'
-import {IGitHubStore, GetOrganizationReposListParams, RepoItem, ErrorMessage } from "./types";
+import ApiStore from '@shared/store';
+import { ApiResponse, HTTPMethod } from '@shared/store'
+
+import { IGitHubStore, GetOrganizationReposListParams, RepoItem, ErrorMessage } from "./types";
 
 // Служит для обращения к API Github
 export default class GitHubStore implements IGitHubStore {

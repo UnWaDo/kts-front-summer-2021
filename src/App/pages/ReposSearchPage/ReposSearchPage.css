@@ -1,0 +1,13 @@
+.repos-search-list {
+    display: grid;
+    padding: 20px;
+    width: 397px;
+    grid-template-columns: 397px;
+    grid-template-rows: min-content;
+}
+
+.repos-search-list__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
