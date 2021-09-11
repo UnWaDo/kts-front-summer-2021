@@ -13,9 +13,23 @@ import { RepoItem } from '@store/types'
 const ReposSearchPage = () => {
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
-    const [repoItems, setRepoItems] = useState([] as RepoItem[])
+    const [repoItems, setRepoItems] = useState<RepoItem[]>([])
     const [error, setError] = useState('')
-    const [selectedRepo, setSelectedRepo] = useState(null as RepoItem | null)
+    const [selectedRepo, setSelectedRepo] = useState<RepoItem | null>(null)
+
+    const searchRepo = async () => {
+        if (input === '') {
+            setError('Строка поиска не должна быть пустой')
+            return
+        }
+        setError('')
+        setIsLoading(true);
+        let repos = await getOrgReposList(input);
+        if (repos.length === 0)
+            setError('Репозитории не найдены')
+        setRepoItems(repos);
+        setIsLoading(false);
+    }
 
     return <div>
         <div className='repos-search-list'>
@@ -23,35 +37,15 @@ const ReposSearchPage = () => {
                 <Input
                     placeholder='Введите название организации'
                     value={input}
-                    onChange={(event: React.ChangeEvent<HTMLInputElement>) => setInput(event.target.value)} />
+                    onChange={(value: string) => setInput(value)} />
                 <Button
                     disabled={isLoading}
-                    onClick={() => {
-                        if (input === '') {
-                            setError('Строка поиска не должна быть пустой')
-                            return
-                        }
-                        setError('')
-                        setIsLoading(true);
-                        getOrgReposList(input).then((repos: RepoItem[]) => {
-                            if (repos.length === 0)
-                                setError('Репозитории не найдены')
-                            setRepoItems(repos);
-                            setIsLoading(false);
-                        })
-                    }}
+                    onClick={searchRepo}
                     children={<SearchIcon />} />
             </div>
             <ErrorMessage text={error} disabled={error === ''} />
             <div>
-                <ReposList repos={repoItems} onClick={(e) => {
-                    const repoID = e.currentTarget.getAttribute('data-key')
-
-                    if (repoID == null)
-                        setSelectedRepo(null)
-                    else
-                        setSelectedRepo(repoItems.filter((repo) => repo.id === +repoID)[0])
-                }} />
+                <ReposList repos={repoItems} onClick={(repo: RepoItem) => { setSelectedRepo(repo) }} />
             </div>
         </div>
         <RepoBranchDrawer selectedRepo={selectedRepo} onClose={() => { setSelectedRepo(null) }} />

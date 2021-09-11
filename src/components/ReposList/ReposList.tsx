@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 
 import RepoTile from '@components/RepoTile';
 import { RepoItem } from '@store/types';
@@ -6,7 +6,7 @@ import './ReposList.css'
 
 type ReposListProps = {
     repos: RepoItem[],
-    onClick: MouseEventHandler
+    onClick: (repo: RepoItem) => void
 }
 
 const ReposList: React.FC<ReposListProps> = ({ repos, onClick }) => {

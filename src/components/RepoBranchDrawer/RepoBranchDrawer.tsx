@@ -13,7 +13,7 @@ type RepoBranchDrawerProps = {
 }
 
 const RepoBranchDrawer: React.FC<RepoBranchDrawerProps> = ({ selectedRepo, onClose }) => {
-    const [branches, setBranches] = useState([] as RepoBranch[])
+    const [branches, setBranches] = useState<RepoBranch[]>([])
     const [loaded, setLoaded] = useState(selectedRepo?.id)
 
     if (selectedRepo !== null && loaded !== selectedRepo.id) {

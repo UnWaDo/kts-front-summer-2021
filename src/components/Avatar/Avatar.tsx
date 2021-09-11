@@ -13,9 +13,6 @@ const Avatar: React.FC<AvatarProps> = ({ src, letter, alt }) => {
             <img className='avatar__image' src={src} alt={alt || ''}></img>
         </div >
     }
-    if (letter == null) {
-        letter = '?';
-    }
     return <div className='avatar'>{letter}</div>
 }
 

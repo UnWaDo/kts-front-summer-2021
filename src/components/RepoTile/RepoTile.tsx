@@ -8,11 +8,15 @@ import './RepoTile.css'
 
 type RepoTileProps = {
     repo: RepoItem,
-    onClick: React.MouseEventHandler<HTMLDivElement>
+    onClick: (repo: RepoItem) => void
 }
 
 const RepoTile: React.FC<RepoTileProps> = ({ repo, onClick }) => {
-    return <div data-key={repo.id} className="repo-tile" onClick={onClick}>
+    const handleClick = () => {
+        onClick(repo);
+    }
+
+    return <div className="repo-tile" onClick={handleClick}>
         <Avatar src={repo.owner.avatar_url} letter={repo.name[0]} alt={repo.owner.login} />
         <div className="repo-tile__description">
             <div className="repo-tile__title">
