@@ -1,0 +1,23 @@
+.avatar {
+    width: 80px;
+    height: 80px;
+    background-color: var(--theme-bg-color);
+    border-radius: 50%;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    margin: 0;
+
+    font-size: 40px;
+    line-height: 80px;
+    font-weight: bold;
+    color: var(--theme-color);
+}
+
+.avatar__image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 0px;
+    vertical-align: top;
+}

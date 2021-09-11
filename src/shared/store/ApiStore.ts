@@ -1,21 +1,6 @@
-import { queries } from "@testing-library/dom";
-import {ApiResponse, IApiStore, RequestParams, HTTPStatus } from "./types";
+import { ApiResponse, IApiStore, RequestParams, HTTPStatus } from "./types";
 
 const qs = require("qs");
-
-class HTTPError extends Error {
-    status: HTTPStatus;
-
-    constructor(status: number) {
-        super()
-        if (status in HTTPStatus && status !== HTTPStatus.UnknownError) {
-            this.status = status
-        }
-        else {
-            this.status = HTTPStatus.UnknownError
-        }
-    }
-}
 
 export default class ApiStore implements IApiStore {
     constructor(baseUrl: string) {
@@ -24,7 +9,7 @@ export default class ApiStore implements IApiStore {
     baseUrl: string;
 
     async request<SuccessT, ErrorT = any, DataT = {}>(params: RequestParams<DataT>): Promise<ApiResponse<SuccessT, ErrorT>> {
-        let url = this.baseUrl + params.endpoint + qs.stringify(params.data, { addQueryPrefix: true});
+        let url = this.baseUrl + params.endpoint + qs.stringify(params.data, { addQueryPrefix: true });
         let requestInput = {
             method: params.method.valueOf()
         };
