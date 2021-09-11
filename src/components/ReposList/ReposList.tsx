@@ -3,7 +3,6 @@ import React from 'react';
 import RepoTile from '@components/RepoTile';
 import { RepoItem } from '@store/types';
 import './ReposList.css'
-import { Link } from 'react-router-dom'
 
 type ReposListProps = {
     repos: RepoItem[],

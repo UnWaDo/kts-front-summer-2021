@@ -1,35 +1,30 @@
-import React, { useState } from 'react'
+import { useContext, useState } from 'react'
 
 import Button from '@components/Button'
 import ErrorMessage from '@components/ErrorMessage'
 import Input from '@components/Input'
+import ReposContext from '@components/ReposContext'
 import ReposList from '@components/ReposList'
 import SearchIcon from '@components/SearchIcon'
 import './ReposSearchPage.css'
-import getOrgReposList from '@root/RepoItems'
 import { RepoItem } from '@store/types'
 import { useHistory } from 'react-router-dom'
 
 const ReposSearchPage = () => {
+    const context = useContext(ReposContext);
     const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
-    const [repoItems, setRepoItems] = useState<RepoItem[]>([]);
+    const repoItems = context.repos;
     const [error, setError] = useState('');
 
     const history = useHistory();
 
-    const searchRepo = async () => {
+    const searchRepo = () => {
         if (input === '') {
-            setError('Строка поиска не должна быть пустой')
-            return
+            setError('Строка поиска не должна быть пустой');
+            return;
         }
-        setError('')
-        setIsLoading(true);
-        let repos = await getOrgReposList(input);
-        if (repos.length === 0)
-            setError('Репозитории не найдены')
-        setRepoItems(repos);
-        setIsLoading(false);
+        setError('');
+        context.load(input);
     }
 
     return <div>
@@ -40,7 +35,7 @@ const ReposSearchPage = () => {
                     value={input}
                     onChange={(value: string) => setInput(value)} />
                 <Button
-                    disabled={isLoading}
+                    disabled={context.isLoading}
                     onClick={searchRepo}
                     children={<SearchIcon />} />
             </div>
