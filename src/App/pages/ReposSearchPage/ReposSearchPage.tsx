@@ -3,19 +3,20 @@ import React, { useState } from 'react'
 import Button from '@components/Button'
 import ErrorMessage from '@components/ErrorMessage'
 import Input from '@components/Input'
-import RepoBranchDrawer from '@components/RepoBranchDrawer'
 import ReposList from '@components/ReposList'
 import SearchIcon from '@components/SearchIcon'
 import './ReposSearchPage.css'
 import getOrgReposList from '@root/RepoItems'
 import { RepoItem } from '@store/types'
+import { useHistory } from 'react-router-dom'
 
 const ReposSearchPage = () => {
-    const [input, setInput] = useState('')
-    const [isLoading, setIsLoading] = useState(false)
-    const [repoItems, setRepoItems] = useState<RepoItem[]>([])
-    const [error, setError] = useState('')
-    const [selectedRepo, setSelectedRepo] = useState<RepoItem | null>(null)
+    const [input, setInput] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
+    const [repoItems, setRepoItems] = useState<RepoItem[]>([]);
+    const [error, setError] = useState('');
+
+    const history = useHistory();
 
     const searchRepo = async () => {
         if (input === '') {
@@ -45,10 +46,9 @@ const ReposSearchPage = () => {
             </div>
             <ErrorMessage text={error} disabled={error === ''} />
             <div>
-                <ReposList repos={repoItems} onClick={(repo: RepoItem) => { setSelectedRepo(repo) }} />
+                <ReposList repos={repoItems} onClick={(repo: RepoItem) => { history.push(`/repo/${repo.owner.login}/${repo.name}`) }} />
             </div>
         </div>
-        <RepoBranchDrawer selectedRepo={selectedRepo} onClose={() => { setSelectedRepo(null) }} />
     </div>
 }
 

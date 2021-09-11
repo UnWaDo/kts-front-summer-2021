@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import RepoBranchInfo from '@components/RepoBranchInfo'
 import getRepoBranchesList from '@root/BranchItems'
-import { RepoBranch, RepoItem } from '@store/types'
+import { RepoBranch } from '@store/types'
 import { Drawer } from 'antd'
 import { useParams } from 'react-router-dom'
 import 'antd/dist/antd.css';
 import './RepoBranchesPage.css'
+import { useHistory } from 'react-router-dom'
 
 type RepoBranchPageParams = {
     owner: string,
@@ -17,6 +18,12 @@ const RepoBranchesPage = () => {
     const { owner, name } = useParams<RepoBranchPageParams>();
     const [loaded, setLoaded] = useState(false);
     const [branches, setBranches] = useState<RepoBranch[]>([]);
+
+    const history = useHistory();
+
+    const handleClose = () => {
+        history.goBack();
+    }
 
     const loadBranches = async () => {
         let branches = await getRepoBranchesList(owner, name);
@@ -29,7 +36,7 @@ const RepoBranchesPage = () => {
             loadBranches()
     });
 
-    return <Drawer width='400px' className='repo-branch-drawer' placement='right' visible={true} onClose={() => { }}>
+    return <Drawer width='400px' className='repo-branch-drawer' placement='right' visible={true} onClose={handleClose}>
         <h3>
             Ветки репозитория
             <br />

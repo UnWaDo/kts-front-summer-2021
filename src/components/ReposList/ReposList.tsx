@@ -13,9 +13,7 @@ type ReposListProps = {
 const ReposList: React.FC<ReposListProps> = ({ repos, onClick }) => {
 
     const repoTiles = repos.map((repo: RepoItem) => {
-        return <Link to={`/repo/${repo.owner.login}/${repo.name}`}>
-            <RepoTile key={repo.id} repo={repo} onClick={onClick} />
-        </Link>
+        return <RepoTile key={repo.id} repo={repo} onClick={onClick} />
     });
     return <>{repoTiles}</>;
 }
