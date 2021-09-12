@@ -1,5 +1,6 @@
 import React from 'react';
-import './ErrorMessage.css'
+
+import styles from './ErrorMessage.module.scss';
 
 type ErrorMessageProps = {
     disabled: boolean,
@@ -9,7 +10,7 @@ type ErrorMessageProps = {
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ disabled, text }) => {
     if (disabled)
         return <br />
-    return <p className='error'>{text}</p>
+    return <p className={styles['error']}>{text}</p>
 }
 
 export default ErrorMessage;

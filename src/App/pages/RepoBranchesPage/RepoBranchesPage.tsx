@@ -6,8 +6,9 @@ import { RepoBranch } from '@store/types'
 import { Drawer } from 'antd'
 import { useParams } from 'react-router-dom'
 import 'antd/dist/antd.css';
-import './RepoBranchesPage.css'
 import { useHistory } from 'react-router-dom'
+
+import styles from './RepoBranchesPage.module.scss'
 
 type RepoBranchPageParams = {
     owner: string,
@@ -36,7 +37,7 @@ const RepoBranchesPage = () => {
             loadBranches()
     });
 
-    return <Drawer width='400px' className='repo-branch-drawer' placement='right' visible={true} onClose={handleClose}>
+    return <Drawer className={styles['repo-branch-drawer']} placement='right' visible={true} onClose={handleClose}>
         <h3>
             Ветки репозитория
             <br />

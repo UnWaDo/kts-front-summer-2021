@@ -6,9 +6,10 @@ import Input from '@components/Input'
 import ReposContext from '@components/ReposContext'
 import ReposList from '@components/ReposList'
 import SearchIcon from '@components/SearchIcon'
-import './ReposSearchPage.css'
 import { RepoItem } from '@store/types'
 import { useHistory } from 'react-router-dom'
+
+import styles from './ReposSearchPage.module.scss'
 
 const ReposSearchPage = () => {
     const context = useContext(ReposContext);
@@ -28,8 +29,8 @@ const ReposSearchPage = () => {
     }
 
     return <div>
-        <div className='repos-search-list'>
-            <div className='repos-search-list__header'>
+        <div className={styles['repos-search-list']}>
+            <div className={styles['repos-search-list__header']}>
                 <Input
                     placeholder='Введите название организации'
                     value={input}

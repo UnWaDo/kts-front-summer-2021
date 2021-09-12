@@ -1,0 +1,24 @@
+@import '/src/styles/variables.scss';
+@import '/src/styles/mixins.scss';
+
+.input {
+    width: 100%;
+    border: 1px $shadow-color solid;
+    border-radius: $border-radius;
+    margin-right: 12px;
+    font-size: 1.0rem;
+    padding: 17px 12px;
+
+    &:focus {
+        border: 1px $border-highlighted-color solid;
+    }
+
+    &:focus-visible {
+        outline: 0;
+    }
+
+    &:disabled {
+        background-color: $disabled-bg-color;
+        color: $disabled-color;
+    }
+}

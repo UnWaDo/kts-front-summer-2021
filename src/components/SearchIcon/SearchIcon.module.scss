@@ -1,0 +1,6 @@
+@import '/src/styles/mixins.scss';
+
+.search-icon {
+    @include square(60%);
+    margin: auto;
+}

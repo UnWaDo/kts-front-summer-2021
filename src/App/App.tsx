@@ -4,7 +4,6 @@ import ReposContext, { ReposContextType } from '@components/ReposContext';
 import getOrgReposList from '@root/RepoItems';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 
-import './App.css';
 import RepoBranchesPage from './pages/RepoBranchesPage';
 import ReposSearchPage from './pages/ReposSearchPage';
 
