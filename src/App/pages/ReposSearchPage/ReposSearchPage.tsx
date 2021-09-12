@@ -14,7 +14,6 @@ import styles from './ReposSearchPage.module.scss'
 const ReposSearchPage = () => {
     const context = useContext(ReposContext);
     const [input, setInput] = useState('');
-    const repoItems = context.repos;
     const [error, setError] = useState('');
 
     const history = useHistory();
@@ -25,7 +24,7 @@ const ReposSearchPage = () => {
             return;
         }
         setError('');
-        context.load(input);
+        context.loadFirst(input, context);
     }
 
     return <div>
@@ -42,7 +41,13 @@ const ReposSearchPage = () => {
             </div>
             <ErrorMessage text={error} disabled={error === ''} />
             <div>
-                <ReposList repos={repoItems} onClick={(repo: RepoItem) => { history.push(`/repo/${repo.owner.login}/${repo.name}`) }} />
+                <ReposList
+                    organizationName={input}
+                    onClick={
+                        (repo: RepoItem) => {
+                            history.push(`/repo/${repo.owner.login}/${repo.name}`)
+                        }
+                    } />
             </div>
         </div>
     </div>

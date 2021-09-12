@@ -13,7 +13,9 @@ export interface IGitHubStore {
 }
 
 export type GetOrganizationReposListParams = {
-    organizationName: string
+    organizationName: string,
+    per_page?: number,
+    page?: number
 }
 
 export type GetRepoBranchesListParams = {
