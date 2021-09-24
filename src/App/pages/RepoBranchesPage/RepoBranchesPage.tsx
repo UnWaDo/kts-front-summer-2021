@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import React from 'react'
 
 import RepoBranchInfo from '@components/RepoBranchInfo'
 import getRepoBranchesList from '@root/BranchItems'
@@ -22,9 +23,7 @@ const RepoBranchesPage = () => {
 
     const history = useHistory();
 
-    const handleClose = () => {
-        history.goBack();
-    }
+    const handleClose = React.useCallback(() => history.goBack(), [history]);
 
     const loadBranches = async () => {
         let branches = await getRepoBranchesList(owner, name);

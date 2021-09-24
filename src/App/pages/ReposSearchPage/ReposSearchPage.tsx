@@ -1,4 +1,5 @@
 import { useContext, useState } from 'react'
+import React from 'react'
 
 import Button from '@components/Button'
 import ErrorMessage from '@components/ErrorMessage'
@@ -18,14 +19,14 @@ const ReposSearchPage = () => {
 
     const history = useHistory();
 
-    const searchRepo = () => {
+    const searchRepo = React.useCallback(() => {
         if (input === '') {
             setError('Строка поиска не должна быть пустой');
             return;
         }
         setError('');
         context.loadFirst(input);
-    }
+    }, [input, context]);
 
     return <div>
         <div className={styles['repos-search-list']}>
@@ -33,7 +34,7 @@ const ReposSearchPage = () => {
                 <Input
                     placeholder='Введите название организации'
                     value={input}
-                    onChange={(value: string) => setInput(value)} />
+                    onChange={React.useCallback((value: string) => setInput(value), [])} />
                 <Button
                     disabled={context.isLoading}
                     onClick={searchRepo}
@@ -44,9 +45,10 @@ const ReposSearchPage = () => {
                 <ReposList
                     organizationName={input}
                     onClick={
-                        (repo: RepoItem) => {
-                            history.push(`/repo/${repo.owner.login}/${repo.name}`)
-                        }
+                        React.useCallback(
+                            (repo: RepoItem) => {
+                                history.push(`/repo/${repo.owner.login}/${repo.name}`)
+                            }, [history])
                     } />
             </div>
         </div>
