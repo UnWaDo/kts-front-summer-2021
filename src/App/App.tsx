@@ -9,42 +9,36 @@ import RepoBranchesPage from './pages/RepoBranchesPage';
 import ReposSearchPage from './pages/ReposSearchPage';
 
 function App() {
-    const load = async (org: string, start: RepoItem[], page?: number) => {
-        setContext({
-            repos: start,
-            isLoading: true,
-            loadFirst: context.loadFirst,
-            loadNext: context.loadNext,
-            per_page: context.per_page,
-            hasMore: context.hasMore
-        });
-        const newRepos = await getOrgReposList(org, context.per_page, page);
-        setContext({
-            repos: start.concat(newRepos),
-            isLoading: false,
-            loadFirst: context.loadFirst,
-            loadNext: context.loadNext,
-            per_page: context.per_page,
-            hasMore: newRepos.length >= context.per_page
-        });
-    }
-    const loadReposFirst = (org: string, currentContext: ReposContextType) => {
-        load(org, []);
+    const loadReposFirst = async (org: string) => {
+        setIsLoading(true);
+        const newRepos = await getOrgReposList(org, context.per_page);
+        setRepos(newRepos);
+        setIsLoading(false);
+        setHasMore(newRepos.length >= perPage);
     }
 
-    const loadReposNext = (org: string, currentContext: ReposContextType) => {
+    const loadReposNext = async (org: string, currentContext: ReposContextType) => {
         const page = Math.floor(currentContext.repos.length / currentContext.per_page) + 1;
-        load(org, currentContext.repos, page);
+        setIsLoading(true);
+        const newRepos = await getOrgReposList(org, context.per_page, page);
+        setRepos(repos.concat(newRepos));
+        setIsLoading(false);
+        setHasMore(newRepos.length >= perPage);
     }
 
-    const [context, setContext] = useState<ReposContextType>({
-        repos: [],
-        isLoading: false,
+    const [repos, setRepos] = useState<RepoItem[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [hasMore, setHasMore] = useState<boolean>(false);
+    const perPage = 10;
+
+    const context = {
+        repos: repos,
+        isLoading: isLoading,
         loadFirst: loadReposFirst,
         loadNext: loadReposNext,
-        per_page: 10,
-        hasMore: false
-    })
+        per_page: perPage,
+        hasMore: hasMore
+    };
 
     return (
         <BrowserRouter>
@@ -55,9 +49,7 @@ function App() {
                     </ReposContext.Provider>
                 </Route>
                 <Route path='/repo/:owner/:name' component={RepoBranchesPage} />
-                <Route path='*'>
-                    <Redirect to='/repos' />
-                </Route>
+                <Redirect to='/repos' />
             </Switch>
         </BrowserRouter>
     );

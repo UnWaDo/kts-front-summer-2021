@@ -19,13 +19,9 @@ const ReposList: React.FC<ReposListProps> = ({ organizationName, onClick }) => {
         context.loadNext(organizationName, context);
     }
 
-    const repoTiles = context.repos.map((repo: RepoItem) => {
-        return <RepoTile key={repo.id} repo={repo} onClick={onClick} />
-    });
     let endMessage;
-    if (context.repos.length === 0)
-        endMessage = <p className={styles['error']}>Репозитории не найдены</p>;
-    else
+    !context.repos.length ?
+        endMessage = <p className={styles['error']}>Репозитории не найдены</p> :
         endMessage = <p className={styles['ender']}>Список репозиториев закончился, всего загружено: {context.repos.length}</p>;
     return <InfiniteScroll
         dataLength={context.repos.length}
@@ -38,7 +34,11 @@ const ReposList: React.FC<ReposListProps> = ({ organizationName, onClick }) => {
         }
         endMessage={endMessage}
     >
-        {repoTiles}
+        {
+            context.repos.map((repo: RepoItem) => {
+                return <RepoTile key={repo.id} repo={repo} onClick={onClick} />
+            })
+        }
     </InfiniteScroll>;
 }
 

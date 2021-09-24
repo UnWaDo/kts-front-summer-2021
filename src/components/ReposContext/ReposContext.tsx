@@ -5,7 +5,7 @@ import { RepoItem } from "@store/types";
 export type ReposContextType = {
     repos: RepoItem[],
     isLoading: boolean,
-    loadFirst: (org: string, currentContext: ReposContextType) => void,
+    loadFirst: (org: string) => void,
     per_page: number,
     hasMore: boolean,
     loadNext: (org: string, currentContext: ReposContextType) => void

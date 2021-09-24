@@ -24,7 +24,7 @@ const ReposSearchPage = () => {
             return;
         }
         setError('');
-        context.loadFirst(input, context);
+        context.loadFirst(input);
     }
 
     return <div>
