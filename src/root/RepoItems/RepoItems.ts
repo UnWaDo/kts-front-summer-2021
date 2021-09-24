@@ -1,17 +1,18 @@
 import GitHubStore from '@store/GitHubStore'
 import { RepoItem } from '@store/types';
 
-const getOrgReposList = (organization: string): Promise<RepoItem[]> => {
+const getOrgReposList = async (organization: string, per_page?: number, page?: number): Promise<RepoItem[]> => {
     const gitHubStore = new GitHubStore();
 
-    return gitHubStore.getOrganizationReposList({
-        organizationName: organization
-    }).then(result => {
-        if (result.success)
-            return result.data;
-        else
-            return [];
-    }).catch(() => []);
+    let result = await gitHubStore.getOrganizationReposList({
+        organizationName: organization,
+        per_page: per_page,
+        page: page
+    });
+    if (result.success)
+        return result.data;
+    else
+        return [];
 }
 
 export default getOrgReposList;

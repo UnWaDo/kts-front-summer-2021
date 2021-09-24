@@ -11,14 +11,16 @@ export default class GitHubStore implements IGitHubStore {
     // Получает список репозиториев у заданной компании
     // @params: список параметров для запроса (фактически — название компании)
     // @return: Promise, содержащий ApiResponse со списком репозиториев (при успешном исходе) или сообщением об ошибке
-    async getOrganizationReposList({ organizationName }: GetOrganizationReposListParams):
+    async getOrganizationReposList({ organizationName, per_page, page }: GetOrganizationReposListParams):
         Promise<ApiResponse<RepoItem[], ErrorMessage>> {
         let requestParams = {
             method: HTTPMethod.GET,
             endpoint: `/orgs/${organizationName}/repos`,
             headers: {},
             data: {
-                orgs: organizationName
+                orgs: organizationName,
+                per_page: per_page,
+                page: page
             }
         };
         return this.apiStore.request<RepoItem[], ErrorMessage>(requestParams);

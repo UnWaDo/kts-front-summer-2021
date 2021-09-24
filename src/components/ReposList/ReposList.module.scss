@@ -1,0 +1,13 @@
+@import '/src/styles/variables.scss';
+
+.loader {
+    color: $secondary-text-color;
+}
+
+.error {
+    color: $error-color;
+}
+
+.ender {
+    color: $secondary-text-color;
+}

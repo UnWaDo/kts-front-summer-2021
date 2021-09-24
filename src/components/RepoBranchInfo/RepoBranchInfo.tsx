@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import RepoBranchTile from '@components/RepoBranchTile'
-import { RepoBranch } from '@store/types'
+import RepoBranchTile from '@components/RepoBranchTile';
+import { RepoBranch } from '@store/types';
 
 type RepoBranchInfoProps = {
     branches: RepoBranch[]

@@ -1,5 +1,6 @@
 import React, { ChangeEvent } from 'react';
-import './Input.css'
+
+import styles from './Input.module.scss';
 
 type InputProps = {
     value: string,
@@ -12,7 +13,7 @@ const Input: React.FC<InputProps> = ({ value, placeholder, onChange }) => {
         onChange(e.target.value)
     }
 
-    return <input className='input'
+    return <input className={styles['input']}
         value={value}
         placeholder={placeholder}
         onChange={handleChange} />;
