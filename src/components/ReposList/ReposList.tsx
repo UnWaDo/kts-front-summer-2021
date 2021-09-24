@@ -42,4 +42,4 @@ const ReposList: React.FC<ReposListProps> = ({ organizationName, onClick }) => {
     </InfiniteScroll>;
 }
 
-export default ReposList;
+export default React.memo(ReposList);

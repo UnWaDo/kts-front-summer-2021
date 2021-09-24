@@ -19,4 +19,4 @@ const RepoBranchTile: React.FC<RepoBranchProps> = ({ branch }) => {
     </div>
 }
 
-export default RepoBranchTile;
+export default React.memo(RepoBranchTile);
