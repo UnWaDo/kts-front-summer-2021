@@ -7,17 +7,16 @@ import Input from '@components/Input'
 import ReposContext from '@components/ReposContext'
 import ReposList from '@components/ReposList'
 import SearchIcon from '@components/SearchIcon'
-import { RepoItem } from '@store/types'
-import { useHistory } from 'react-router-dom'
+import { Meta } from '@utils/meta'
+import { observer } from 'mobx-react-lite'
 
 import styles from './ReposSearchPage.module.scss'
 
 const ReposSearchPage = () => {
-    const context = useContext(ReposContext);
+    const reposContext = useContext(ReposContext);
+    const reposListStore = reposContext.reposListStore;
     const [input, setInput] = useState('');
     const [error, setError] = useState('');
-
-    const history = useHistory();
 
     const searchRepo = React.useCallback(() => {
         if (input === '') {
@@ -25,8 +24,8 @@ const ReposSearchPage = () => {
             return;
         }
         setError('');
-        context.loadFirst(input);
-    }, [input, context]);
+        reposListStore.loadReposFirst(input);
+    }, [input, reposListStore]);
 
     return <div>
         <div className={styles['repos-search-list']}>
@@ -36,23 +35,16 @@ const ReposSearchPage = () => {
                     value={input}
                     onChange={React.useCallback((value: string) => setInput(value), [])} />
                 <Button
-                    disabled={context.isLoading}
+                    disabled={reposListStore.meta === Meta.loading}
                     onClick={searchRepo}
                     children={<SearchIcon />} />
             </div>
             <ErrorMessage text={error} disabled={error === ''} />
             <div>
-                <ReposList
-                    organizationName={input}
-                    onClick={
-                        React.useCallback(
-                            (repo: RepoItem) => {
-                                history.push(`/repo/${repo.owner.login}/${repo.name}`)
-                            }, [history])
-                    } />
+                <ReposList />
             </div>
         </div>
     </div>
 }
 
-export default ReposSearchPage;
+export default observer(ReposSearchPage);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RepoBranch } from '@store/types';
+import { RepoBranch } from '@store/models/RepoBranch';
 
 import styles from './RepoBranchTile.module.scss';
 

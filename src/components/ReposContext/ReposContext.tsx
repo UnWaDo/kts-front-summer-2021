@@ -1,23 +1,13 @@
 import { createContext } from "react";
 
-import { RepoItem } from "@store/types";
+import ReposListStore from "@store/ReposListStore";
 
 export type ReposContextType = {
-    repos: RepoItem[],
-    isLoading: boolean,
-    loadFirst: (org: string) => void,
-    per_page: number,
-    hasMore: boolean,
-    loadNext: (org: string, currentContext: ReposContextType) => void
+    reposListStore: ReposListStore
 }
 
 const ReposContext = createContext<ReposContextType>({
-    repos: [],
-    isLoading: false,
-    loadFirst: () => { },
-    per_page: 10,
-    hasMore: false,
-    loadNext: () => { }
+    reposListStore: new ReposListStore(10)
 });
 
 export default ReposContext;

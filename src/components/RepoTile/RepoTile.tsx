@@ -2,19 +2,20 @@ import React from 'react';
 
 import Avatar from '@components/Avatar';
 import StarIcon from '@components/StarIcon';
+import { RepoItem } from '@store/models/RepoItem';
 import dayjs from 'dayjs'
-import { RepoItem } from 'src/store/types';
+import { useHistory } from 'react-router';
 
 import styles from './RepoTile.module.scss';
 
 type RepoTileProps = {
-    repo: RepoItem,
-    onClick: (repo: RepoItem) => void
+    repo: RepoItem
 }
 
-const RepoTile: React.FC<RepoTileProps> = ({ repo, onClick }) => {
+const RepoTile: React.FC<RepoTileProps> = ({ repo }) => {
+    const history = useHistory();
     const handleClick = () => {
-        onClick(repo);
+        history.push(`/repo/${repo.owner.login}/${repo.name}`);
     }
 
     return <div className={styles['repo-tile']} onClick={handleClick}>

@@ -1,5 +1,5 @@
 import GitHubStore from '@store/GitHubStore'
-import { RepoItem } from '@store/types';
+import { RepoItem } from '@store/models/RepoItem';
 
 const getOrgReposList = async (organization: string, per_page?: number, page?: number): Promise<RepoItem[]> => {
     const gitHubStore = new GitHubStore();

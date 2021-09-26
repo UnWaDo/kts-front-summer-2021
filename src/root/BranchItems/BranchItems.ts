@@ -1,5 +1,5 @@
+import { RepoBranch } from '@store/models/RepoBranch';
 import GitHubStore from '@store/GitHubStore'
-import { RepoBranch } from '@store/types';
 
 const getRepoBranchesList = (ownerName: string, repositoryName: string): Promise<RepoBranch[]> => {
     const gitHubStore = new GitHubStore();

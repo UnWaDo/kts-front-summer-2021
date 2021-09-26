@@ -1,6 +1,6 @@
-import { ApiResponse, IApiStore, RequestParams, HTTPStatus } from "./types";
+import qs from "qs";
 
-const qs = require("qs");
+import { ApiResponse, IApiStore, RequestParams, HTTPStatus } from "./types";
 
 export default class ApiStore implements IApiStore {
     constructor(baseUrl: string) {

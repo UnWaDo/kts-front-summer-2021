@@ -1,7 +1,9 @@
 import ApiStore from '@shared/store';
 import { ApiResponse, HTTPMethod } from '@shared/store'
+import { RepoBranch } from "@store/models/RepoBranch"
+import { RepoItem } from "@store/models/RepoItem"
 
-import { IGitHubStore, RepoItem, ErrorMessage, RepoBranch } from "./types";
+import { IGitHubStore, ErrorMessage } from "./types";
 import { GetOrganizationReposListParams, GetRepoBranchesListParams } from './types'
 
 // Служит для обращения к API Github
