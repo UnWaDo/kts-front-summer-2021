@@ -38,7 +38,7 @@ const RepoBranchesPage = () => {
             <i>{owner}</i>
         </h3>
         <div>
-            {repoBranchesStore.meta === Meta.loading ? <p>Loading...</p> : <RepoBranchInfo branches={repoBranchesStore.branches} />}
+            {repoBranchesStore.meta === Meta.loading ? <p>Загрузка...</p> : <RepoBranchInfo branches={repoBranchesStore.branches} />}
         </div>
     </Drawer>
 }

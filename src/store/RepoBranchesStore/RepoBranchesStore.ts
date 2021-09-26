@@ -32,18 +32,22 @@ export default class RepoBranchesStore implements ILocalStore {
     loadBranches = async () => {
         this._meta = Meta.loading;
         this._branches = [];
-        let result = await this._gitHubStore.getRepoBranchesList({
-            ownerName: this._owner,
-            repositoryName: this._repositoryName
-        });
-        runInAction(() => {
-            if (result.success) {
-                this._branches = result.data;
-                this._meta = Meta.success;
-            }
-            else
-                this._meta = Meta.error;
-        });
+        try {
+            let result = await this._gitHubStore.getRepoBranchesList({
+                ownerName: this._owner,
+                repositoryName: this._repositoryName
+            });
+            runInAction(() => {
+                if (result.success) {
+                    this._branches = result.data;
+                    this._meta = Meta.success;
+                }
+                else
+                    this._meta = Meta.error;
+            });
+        } catch {
+            this._meta = Meta.error;
+        }
     }
 
     destroy() { }

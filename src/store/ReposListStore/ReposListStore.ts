@@ -1,5 +1,5 @@
 import GitHubStore from "@store/GitHubStore";
-import { RepoItem } from "@store/models/RepoItem";
+import { RepoItem, repoItemNormalizer } from "@store/models/RepoItem";
 import { Meta } from "@utils/meta";
 import { ILocalStore } from "@utils/useLocalStore"
 import { action, computed, makeObservable, observable, runInAction } from "mobx";
@@ -40,42 +40,53 @@ export default class ReposListStore implements ILocalStore {
         this._organizationName = organizationName;
         this._meta = Meta.loading;
         this._repos = [];
-        let result = await this._gitHubStore.getOrganizationReposList({
-            organizationName: this._organizationName,
-            per_page: this._perPage
-        });
-        runInAction(() => {
-            if (result.success) {
-                this._repos = result.data;
-                this._hasMore = this._repos.length >= this._perPage;
-                this._meta = Meta.success;
-            }
-            else
+        try {
+            let result = await this._gitHubStore.getOrganizationReposList({
+                organizationName: this._organizationName,
+                per_page: this._perPage
+            });
+            runInAction(() => {
+                if (result.success) {
+                    this._repos = Array.from(result.data, repoItemNormalizer);
+                    this._hasMore = this._repos.length >= this._perPage;
+                    this._meta = Meta.success;
+                }
+                else
+                    this._meta = Meta.error;
+            });
+        } catch {
+            runInAction(() => {
                 this._meta = Meta.error;
-        });
+            });
+            return;
+        }
     }
 
     loadReposNext = async () => {
         this._meta = Meta.loading;
         let page = Math.floor(this._repos.length / this._perPage) + 1;
-        let result = await this._gitHubStore.getOrganizationReposList({
-            organizationName: this._organizationName,
-            per_page: this._perPage,
-            page: page
-        });
-        runInAction(() => {
-            let newRepos: RepoItem[];
-            if (result.success) {
-                newRepos = result.data;
-                this._meta = Meta.success;
-            }
-            else {
-                newRepos = [];
-                this._meta = Meta.error;
-            }
-            this._repos = this._repos.slice().concat(newRepos);
-            this._hasMore = newRepos.length >= this._perPage;
-        });
+        try {
+            let result = await this._gitHubStore.getOrganizationReposList({
+                organizationName: this._organizationName,
+                per_page: this._perPage,
+                page: page
+            });
+            runInAction(() => {
+                let newRepos: RepoItem[];
+                if (result.success) {
+                    newRepos = Array.from(result.data, repoItemNormalizer);
+                    this._meta = Meta.success;
+                }
+                else {
+                    newRepos = [];
+                    this._meta = Meta.error;
+                }
+                this._repos = this._repos.slice().concat(newRepos);
+                this._hasMore = newRepos.length >= this._perPage;
+            });
+        } catch {
+            this._meta = Meta.error;
+        }
     }
 
     destroy() { }

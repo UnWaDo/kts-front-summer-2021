@@ -15,17 +15,17 @@ type RepoTileProps = {
 const RepoTile: React.FC<RepoTileProps> = ({ repo }) => {
     const history = useHistory();
     const handleClick = () => {
-        history.push(`/repo/${repo.owner.login}/${repo.name}`);
+        history.push(`/repo/${repo.owner_login}/${repo.name}`);
     }
 
     return <div className={styles['repo-tile']} onClick={handleClick}>
-        <Avatar src={repo.owner.avatar_url} letter={repo.name[0]} alt={repo.owner.login} />
+        <Avatar src={repo.owner_avatar} letter={repo.name[0].toUpperCase()} alt={repo.owner_login} />
         <div className={styles['repo-tile__description']}>
             <div className={styles['repo-tile__title']}>
                 {repo.name}
             </div>
             <div className={styles['repo-tile__company']}>
-                {repo.owner.login}
+                {repo.owner_login}
             </div>
             <div className={styles['repo-tile__details']}>
                 <span className={styles['repo-tile__stars']}><StarIcon />{repo.stargazers_count}</span>

@@ -1,12 +1,28 @@
 import ApiStore from '@shared/store';
-import { ApiResponse, HTTPMethod } from '@shared/store'
 import { RepoBranch } from "@store/models/RepoBranch"
-import { RepoItem } from "@store/models/RepoItem"
+import { GitHubRepoItem } from '@store/models/RepoItem';
+import { ApiResponse, HTTPMethod } from '@store/models/Requests'
 
-import { IGitHubStore, ErrorMessage } from "./types";
-import { GetOrganizationReposListParams, GetRepoBranchesListParams } from './types'
+export interface IGitHubStore {
+    getOrganizationReposList(params: GetOrganizationReposListParams): Promise<ApiResponse<GitHubRepoItem[], ErrorMessage>>,
+    getRepoBranchesList(params: GetRepoBranchesListParams): Promise<ApiResponse<RepoBranch[], ErrorMessage>>
+}
 
-// Служит для обращения к API Github
+export type GetOrganizationReposListParams = {
+    organizationName: string,
+    per_page?: number,
+    page?: number
+}
+
+export type GetRepoBranchesListParams = {
+    ownerName: string,
+    repositoryName: string
+}
+
+export type ErrorMessage = {
+    message: string
+}
+
 export default class GitHubStore implements IGitHubStore {
     private readonly apiStore = new ApiStore("https://api.github.com");
 
@@ -14,7 +30,7 @@ export default class GitHubStore implements IGitHubStore {
     // @params: список параметров для запроса (фактически — название компании)
     // @return: Promise, содержащий ApiResponse со списком репозиториев (при успешном исходе) или сообщением об ошибке
     async getOrganizationReposList({ organizationName, per_page, page }: GetOrganizationReposListParams):
-        Promise<ApiResponse<RepoItem[], ErrorMessage>> {
+        Promise<ApiResponse<GitHubRepoItem[], ErrorMessage>> {
         let requestParams = {
             method: HTTPMethod.GET,
             endpoint: `/orgs/${organizationName}/repos`,
@@ -25,7 +41,7 @@ export default class GitHubStore implements IGitHubStore {
                 page: page
             }
         };
-        return this.apiStore.request<RepoItem[], ErrorMessage>(requestParams);
+        return this.apiStore.request<GitHubRepoItem[], ErrorMessage>(requestParams);
     }
 
     async getRepoBranchesList({ ownerName, repositoryName }: GetRepoBranchesListParams):

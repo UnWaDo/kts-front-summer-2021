@@ -4,6 +4,7 @@ import ReposContext from '@components/ReposContext';
 import RepoTile from '@components/RepoTile';
 import { RepoItem } from '@store/models/RepoItem';
 import { Meta } from '@utils/meta';
+import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import styles from './ReposList.module.scss';
@@ -29,11 +30,7 @@ const ReposList: React.FC = () => {
         dataLength={reposListStore.repos.length}
         next={reposListStore.loadReposNext}
         hasMore={reposListStore.hasMore}
-        loader={
-            <p className={styles['loader']}>
-                Загрузка...
-            </p>
-        }
+        loader={endMessage}
         endMessage={endMessage}
     >
         {
@@ -44,4 +41,4 @@ const ReposList: React.FC = () => {
     </InfiniteScroll>;
 }
 
-export default ReposList;
+export default observer(ReposList);
