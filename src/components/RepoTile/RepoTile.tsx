@@ -14,9 +14,9 @@ type RepoTileProps = {
 
 const RepoTile: React.FC<RepoTileProps> = ({ repo }) => {
     const history = useHistory();
-    const handleClick = () => {
+    const handleClick = React.useCallback(() => {
         history.push(`/repo/${repo.owner_login}/${repo.name}`);
-    }
+    }, [repo, history]);
 
     return <div className={styles['repo-tile']} onClick={handleClick}>
         <Avatar src={repo.owner_avatar} letter={repo.name[0].toUpperCase()} alt={repo.owner_login} />

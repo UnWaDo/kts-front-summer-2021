@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
 import React from 'react'
 
 import Button from '@components/Button'
@@ -15,31 +15,26 @@ import styles from './ReposSearchPage.module.scss'
 const ReposSearchPage = () => {
     const reposContext = useContext(ReposContext);
     const reposListStore = reposContext.reposListStore;
-    const [input, setInput] = useState('');
-    const [error, setError] = useState('');
 
     const searchRepo = React.useCallback(() => {
-        if (input === '') {
-            setError('Строка поиска не должна быть пустой');
-            return;
-        }
-        setError('');
-        reposListStore.loadReposFirst(input);
-    }, [input, reposListStore]);
+        reposListStore.loadReposFirst();
+    }, [reposListStore]);
+
+    const onInputChange = React.useCallback((value: string) => reposListStore.setOrganizationName(value), [reposListStore]);
 
     return <div>
         <div className={styles['repos-search-list']}>
             <div className={styles['repos-search-list__header']}>
                 <Input
                     placeholder='Введите название организации'
-                    value={input}
-                    onChange={React.useCallback((value: string) => setInput(value), [])} />
+                    value={reposListStore.organizationName}
+                    onChange={onInputChange} />
                 <Button
                     disabled={reposListStore.meta === Meta.loading}
                     onClick={searchRepo}
                     children={<SearchIcon />} />
             </div>
-            <ErrorMessage text={error} disabled={error === ''} />
+            <ErrorMessage text={reposListStore.error} disabled={reposListStore.meta !== Meta.error} />
             <div>
                 <ReposList />
             </div>

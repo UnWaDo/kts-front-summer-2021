@@ -15,9 +15,6 @@ const ReposList: React.FC = () => {
 
     let endMessage;
     switch (reposListStore.meta) {
-        case Meta.error:
-            endMessage = <p className={styles['error']}>Репозитории не найдены</p>;
-            break;
         case Meta.loading:
             endMessage = <p className={styles['loader']}>Загрузка...</p>;
             break;
