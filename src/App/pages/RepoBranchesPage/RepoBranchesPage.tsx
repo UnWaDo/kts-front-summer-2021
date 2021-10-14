@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 
 import RepoBranchInfo from '@components/RepoBranchInfo'
-import getRepoBranchesList from '@root/BranchItems'
-import { RepoBranch } from '@store/types'
+import RepoBranchesStore from '@store/RepoBranchesStore';
+import { Meta } from '@utils/meta';
+import { useLocalStore } from '@utils/useLocalStore';
 import { Drawer } from 'antd'
-import { useParams } from 'react-router-dom'
 import 'antd/dist/antd.css';
-import { useHistory } from 'react-router-dom'
+import { observer } from 'mobx-react-lite';
+import { useParams, useHistory } from 'react-router-dom'
 
 import styles from './RepoBranchesPage.module.scss'
 
@@ -17,25 +18,14 @@ type RepoBranchPageParams = {
 
 const RepoBranchesPage = () => {
     const { owner, name } = useParams<RepoBranchPageParams>();
-    const [loaded, setLoaded] = useState(false);
-    const [branches, setBranches] = useState<RepoBranch[]>([]);
+    const repoBranchesStore = useLocalStore(() => new RepoBranchesStore(owner, name))
 
     const history = useHistory();
 
-    const handleClose = () => {
-        history.goBack();
-    }
+    if (repoBranchesStore.meta === Meta.initial)
+        repoBranchesStore.loadBranches();
 
-    const loadBranches = async () => {
-        let branches = await getRepoBranchesList(owner, name);
-        setLoaded(true);
-        setBranches(branches);
-    }
-
-    useEffect(() => {
-        if (!loaded)
-            loadBranches()
-    });
+    const handleClose = React.useCallback(() => history.goBack(), [history]);
 
     return <Drawer className={styles['repo-branch-drawer']} placement='right' visible={true} onClose={handleClose}>
         <h3>
@@ -48,9 +38,9 @@ const RepoBranchesPage = () => {
             <i>{owner}</i>
         </h3>
         <div>
-            <RepoBranchInfo branches={branches} />
+            {repoBranchesStore.meta === Meta.loading ? <p>Загрузка...</p> : <RepoBranchInfo branches={repoBranchesStore.branches} />}
         </div>
     </Drawer>
 }
 
-export default RepoBranchesPage;
+export default observer(RepoBranchesPage);

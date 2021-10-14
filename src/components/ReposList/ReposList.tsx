@@ -2,44 +2,40 @@ import React, { useContext } from 'react';
 
 import ReposContext from '@components/ReposContext';
 import RepoTile from '@components/RepoTile';
-import { RepoItem } from '@store/types';
+import { RepoItem } from '@store/models/RepoItem';
+import { Meta } from '@utils/meta';
+import { observer } from 'mobx-react-lite';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import styles from './ReposList.module.scss';
 
-type ReposListProps = {
-    organizationName: string,
-    onClick: (repo: RepoItem) => void
-}
-
-const ReposList: React.FC<ReposListProps> = ({ organizationName, onClick }) => {
+const ReposList: React.FC = () => {
     const context = useContext(ReposContext);
-
-    const loadNextRepos = () => {
-        context.loadNext(organizationName, context);
-    }
+    const reposListStore = context.reposListStore;
 
     let endMessage;
-    !context.repos.length ?
-        endMessage = <p className={styles['error']}>Репозитории не найдены</p> :
-        endMessage = <p className={styles['ender']}>Список репозиториев закончился, всего загружено: {context.repos.length}</p>;
+    switch (reposListStore.meta) {
+        case Meta.loading:
+            endMessage = <p className={styles['loader']}>Загрузка...</p>;
+            break;
+        case Meta.success:
+            endMessage = <p className={styles['ender']}>Список репозиториев закончился, всего загружено: {reposListStore.repos.length}</p>;
+            break;
+    }
+
     return <InfiniteScroll
-        dataLength={context.repos.length}
-        next={loadNextRepos}
-        hasMore={context.hasMore}
-        loader={
-            <p className={styles['loader']}>
-                Загрузка...
-            </p>
-        }
+        dataLength={reposListStore.repos.length}
+        next={reposListStore.loadReposNext}
+        hasMore={reposListStore.hasMore}
+        loader={endMessage}
         endMessage={endMessage}
     >
         {
-            context.repos.map((repo: RepoItem) => {
-                return <RepoTile key={repo.id} repo={repo} onClick={onClick} />
+            reposListStore.repos.map((repo: RepoItem) => {
+                return <RepoTile key={repo.id} repo={repo} />
             })
         }
     </InfiniteScroll>;
 }
 
-export default ReposList;
+export default observer(ReposList);

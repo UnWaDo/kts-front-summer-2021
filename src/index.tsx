@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import '@styles/index.module.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './config/configureMobX';
 
 ReactDOM.render(
     <React.StrictMode>

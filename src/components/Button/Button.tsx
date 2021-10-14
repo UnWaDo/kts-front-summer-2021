@@ -12,4 +12,4 @@ const Button: React.FC<ButtonProps> = ({ disabled, children, onClick }) => {
     return <button className={styles['button']} onClick={onClick} disabled={disabled}>{children}</button>
 }
 
-export default Button;
+export default React.memo(Button);

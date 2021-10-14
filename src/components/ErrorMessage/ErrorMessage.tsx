@@ -13,4 +13,4 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ disabled, text }) => {
     return <p className={styles['error']}>{text}</p>
 }
 
-export default ErrorMessage;
+export default React.memo(ErrorMessage);

@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react'
+import { useContext } from 'react'
+import React from 'react'
 
 import Button from '@components/Button'
 import ErrorMessage from '@components/ErrorMessage'
@@ -6,51 +7,39 @@ import Input from '@components/Input'
 import ReposContext from '@components/ReposContext'
 import ReposList from '@components/ReposList'
 import SearchIcon from '@components/SearchIcon'
-import { RepoItem } from '@store/types'
-import { useHistory } from 'react-router-dom'
+import { Meta } from '@utils/meta'
+import { observer } from 'mobx-react-lite'
 
 import styles from './ReposSearchPage.module.scss'
 
 const ReposSearchPage = () => {
-    const context = useContext(ReposContext);
-    const [input, setInput] = useState('');
-    const [error, setError] = useState('');
+    const reposContext = useContext(ReposContext);
+    const reposListStore = reposContext.reposListStore;
 
-    const history = useHistory();
+    const searchRepo = React.useCallback(() => {
+        reposListStore.loadReposFirst();
+    }, [reposListStore]);
 
-    const searchRepo = () => {
-        if (input === '') {
-            setError('Строка поиска не должна быть пустой');
-            return;
-        }
-        setError('');
-        context.loadFirst(input);
-    }
+    const onInputChange = React.useCallback((value: string) => reposListStore.setOrganizationName(value), [reposListStore]);
 
     return <div>
         <div className={styles['repos-search-list']}>
             <div className={styles['repos-search-list__header']}>
                 <Input
                     placeholder='Введите название организации'
-                    value={input}
-                    onChange={(value: string) => setInput(value)} />
+                    value={reposListStore.organizationName}
+                    onChange={onInputChange} />
                 <Button
-                    disabled={context.isLoading}
+                    disabled={reposListStore.meta === Meta.loading}
                     onClick={searchRepo}
                     children={<SearchIcon />} />
             </div>
-            <ErrorMessage text={error} disabled={error === ''} />
+            <ErrorMessage text={reposListStore.error} disabled={reposListStore.meta !== Meta.error} />
             <div>
-                <ReposList
-                    organizationName={input}
-                    onClick={
-                        (repo: RepoItem) => {
-                            history.push(`/repo/${repo.owner.login}/${repo.name}`)
-                        }
-                    } />
+                <ReposList />
             </div>
         </div>
     </div>
 }
 
-export default ReposSearchPage;
+export default observer(ReposSearchPage);
